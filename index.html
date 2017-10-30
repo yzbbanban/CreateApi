@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>创建api</title>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+		<script type="text/javascript">
+			$(function() {
+				$("#btn_order").click(function() {
+					//创建查询列表接口
+					$.ajax({
+						type: "post",
+						url: "http://fleet01.elocation.com.cn/WebService_API/API_TMS_Service.asmx/QUR_CRT_QUERY",
+						data: {
+							'Comp': 'tf003',
+							'UserID': 'Admroot',
+							'SetType': '1',
+							'QueryNo': 'queryOrderList',
+							'QueryType': '2',
+							'ColAry': '{"BatchNo","Province","TotalVolume","OrderNo","DetailQuantity","DeliveryStopAddr","City","Area","DetailItem","Weight"}',
+							'Params': '',
+							'CheckKey': ''
+						},
+						async: true,
+						dataType: "xml", //xml格式
+						success: function(result) {
+							var res = $(result).find("string").text(); //获取其中的json字符串
+							console.log(res);
+							//						var js = JSON.parse(res); //转换为object对象
+
+						},
+						error: function() {
+							alert("车辆信息获取失败");
+						}
+					});
+
+				});
+				$("#btn_order_all").click(function() {
+					//创建查询列表接口
+					$.ajax({
+						type: "post",
+						url: "http://fleet01.elocation.com.cn/WebService_API/API_TMS_Service.asmx/QUR_CRT_QUERY",
+						data: {
+							'Comp': 'tf003',
+							'UserID': 'Admroot',
+							'SetType': '1',
+							'QueryNo': 'queryOrderDetail',
+							'QueryType': '2',
+							'ColAry': '{"CarNo","DriverNo","Shipment_Status","ImageUrl","ImageStatus","DisTime","SignTime","LoadTime","ArrivalsTime","ClosedTime","CargoOwner","BatchNo","OrderNo","DeliveryStopName","DeliveryStopNo","Province","City","Area","DeliveryStopAddr","WareHouse","Boxes","Volume","TotalVolume","DeliveryDate","EstimatedDeliveryTime","DetailItem","DetailQuantity","Volume2","Weight","Carriers","Tel","Memo"}',
+							'Params': '',
+							'CheckKey': ''
+						},
+						async: true,
+						dataType: "xml", //xml格式
+						success: function(result) {
+							var res = $(result).find("string").text(); //获取其中的json字符串
+							console.log(res);
+							//						var js = JSON.parse(res); //转换为object对象
+
+						},
+						error: function() {
+							alert("error");
+						}
+					});
+
+				});
+				$("#btn_order_transfer").click(function() {
+					//					alert("ss");
+					//创建查询列表接口
+					$.ajax({
+						type: "post",
+						url: "http://fleet01.elocation.com.cn/WebService_API/API_TMS_Service.asmx/ORD_CRT_LOADNO",
+						data: {
+							'_CreateLoadNoConDto': '[{"OrderNo":"1"},{"OrderNo":"1"}]',
+							'Comp': '',
+							'CarNo': '',
+							'CheckKey': '',
+						},
+						async: true,
+						dataType: "xml", //xml格式
+						success: function(result) {
+							var res = $(result).find("string").text(); //获取其中的json字符串
+							console.log(res);
+							//						var js = JSON.parse(res); //转换为object对象
+
+						},
+						error: function() {
+							alert("失败");
+						}
+					});
+
+				});
+
+			});
+		</script>
+	</head>
+
+	<body>
+		<button id="btn_order" class="btn btn-primary">创建订单列表接口</button>
+		<button id="btn_order_all" class="btn btn-primary">创建全部数据接口</button>
+		<button id="btn_order_transfer" class="btn btn-primary">转配接口</button>
+		
+	</body>
+
+</html>
